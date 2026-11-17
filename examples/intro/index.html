@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Deckframe | An introduction</title>
+  <link rel="stylesheet" href="deckframe.css">
+  <link rel="stylesheet" href="deckframe-motion.css">
+  <link rel="stylesheet" href="theme.css">
+  <script src="deckframe.js" defer></script>
+</head>
+<body>
+  <main data-deckframe>
+    <div data-stage aria-label="Deckframe demo">
+      <section id="intro" class="cover" data-slide aria-label="Deckframe introduction">
+        <span class="wordmark">Deckframe</span>
+        <h1>Turn a chat<br>into a talk.</h1>
+        <p>Editable HTML slides from a conversation, notes, or a brief.</p>
+        <div class="play-tile" data-morph="play-tile" aria-hidden="true"><i></i></div>
+      </section>
+      <section id="present" class="present" data-slide data-transition="cut">
+        <span class="wordmark">Present</span>
+        <h2>Give each idea<br>its own beat.</h2>
+        <p>Use the arrow keys to advance a slide or reveal the next point.</p>
+        <div class="demo-window">
+          <header><span></span><span></span><span></span></header>
+          <div class="demo-content">
+            <div class="play-tile" data-morph="play-tile" aria-hidden="true"><i></i></div>
+            <div class="example-beat" data-step data-motion="enter-soft-rise">
+              <strong>One more beat.</strong>
+              <small>This line appears on your cue.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="edit" class="edit" data-slide data-transition="cut">
+        <span class="wordmark">Edit</span>
+        <h2>Keep the source.</h2>
+        <p>Open the HTML in a browser. Change a headline, style a slide, or give two elements the same morph name.</p>
+        <div class="source-window" aria-hidden="true">
+          <div class="filename">index.html</div>
+          <pre><code><span>&lt;section</span> data-slide<span>&gt;</span>
+  &lt;h2&gt;My next idea&lt;/h2&gt;
+  &lt;p <strong>data-step</strong>&gt;The reveal&lt;/p&gt;
+<span>&lt;/section&gt;</span></code></pre>
+        </div>
+        <div class="play-tile" data-morph="play-tile" aria-hidden="true"><i></i></div>
+      </section>
+      <section id="share" class="share" data-slide data-transition="cut">
+        <span class="wordmark">Share</span>
+        <div class="play-tile" data-morph="play-tile" aria-hidden="true"><i></i></div>
+        <h2>Play it.<br>Or loop it.</h2>
+        <p>Present the HTML live or export a looping GIF for your README. This demo doubles as the README GIF.</p>
+      </section>
+    </div>
+    <footer data-controls hidden>
+      <nav data-jump aria-label="Jump to slide"></nav>
+      <button type="button" data-back>Back</button>
+      <button type="button" data-next>Next</button>
+      <button type="button" data-replay hidden>Replay</button>
+    </footer>
+    <div data-status role="status"></div>
+  </main>
+</body>
+</html>

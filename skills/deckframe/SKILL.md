@@ -1,0 +1,17 @@
+---
+name: deckframe
+description: Turn a conversation, notes, or a brief into an editable HTML presentation with presenter-controlled reveals and playful shared-element morphs. Use when asked for a Deckframe deck or an animated HTML slide deck, including optional looping GIF export. Accepts optional Motion Library IDs to direct transitions, entrances, exits, and in-slide effects.
+---
+
+# Deckframe
+
+Turn the supplied material into a short presentation the user can open, present, and edit locally.
+
+1. Use the current conversation and any sources the user provided. For material from another conversation, use the host’s conversation access when available or ask for the relevant excerpt. Preserve decisions, confirmed results, and material open questions. Leave private details out when they do not belong in the intended audience's deck. Use the requested audience, tone, and length. When unspecified, infer them from context and choose a compact sequence, usually four to six slides.
+2. Outline the arc before writing HTML. Give each slide a purpose and vary the visual treatment with the story. Borrow the pacing of a playful talk, where a scene can stay put for a reveal and one recognizable object can travel into a different visual world. Leave time to read between changes.
+3. Deliver a presentation-ready deck from the brief even when the user gives no motion ID. Use a clear opening claim, readable content with one focus per slide, concrete evidence or examples, and a close suited to the talk. Build a visual system for the topic with consistent type, spacing, and controls. Mix layouts for statements, evidence, and takeaways. Use cuts or fades by default. Add motion according to the story: reveal evidence as it comes up, emphasize key results, move a recognizable object to show continuity, or retire an item before introducing its replacement. Use ambient motion sparingly. Consult [the motion reference](references/motion-library.md) to choose an effect when it helps the story or to resolve a Motion Library ID from the user. Apply a supplied ID where requested or where the brief clearly implies it. If the ID is unknown, identify it in the handoff and preserve the deck with a simple fallback.
+4. Read [HTML authoring](references/authoring.md), then copy the bundled runtime and starter to the requested destination or a new writable, task-owned deck folder. Edit the copied HTML and CSS. Preserve the original conversation and starter files.
+5. Open the resulting HTML in a browser and check it through normal controls. Verify the planned shared transitions in both directions, the reveals, text and visual placement at an appropriate desktop and narrow viewport, and reduced-motion behavior when possible. Correct overflow and missed morph matches before delivery. If browser verification is unavailable, say what remains unchecked.
+6. Deliver the editable HTML entry point and state how to open it. If the user requested a GIF, read [GIF export](references/gif.md) and run the bundled exporter against the reviewed deck. Deliver the GIF with the HTML.
+
+The output is a deck, not a transcript. Keep example text, design assets, and claims grounded in the user's material. Return the deck as files in the host’s writable workspace or as a downloadable bundle. A compatible host needs to read the skill files and write or return the deck files. If it cannot open a browser or run the optional exporter, deliver the editable deck and report which checks or export steps remain. Publish only when the user asks.

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Deckframe"
+  short_description: "Turn chats into editable animated HTML decks"

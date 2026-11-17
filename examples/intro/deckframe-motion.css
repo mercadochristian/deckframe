@@ -1,0 +1,263 @@
+/* Presentation motions from the Motion Library. Load after deckframe.css. */
+
+/* Scene previews use the same keyframes as Deckframe's slide snapshots. */
+:root[data-df-transition="scene-panel-turn"], [data-scene-preview="scene-panel-turn"] {
+  --df-scene-out: df-panel-out;
+  --df-scene-in: df-panel-in;
+  --df-scene-duration: 480ms;
+}
+:root[data-df-transition="scene-push"], [data-scene-preview="scene-push"] {
+  --df-scene-out: df-push-out;
+  --df-scene-in: df-push-in;
+  --df-scene-duration: 420ms;
+  --df-scene-ease: cubic-bezier(.77, 0, .175, 1);
+}
+:root[data-df-transition="scene-curtain"], [data-scene-preview="scene-curtain"] {
+  --df-scene-out: df-scene-hold;
+  --df-scene-in: df-curtain-in;
+  --df-scene-duration: 440ms;
+}
+:root[data-df-transition="scene-zoom-through"], [data-scene-preview="scene-zoom-through"] {
+  --df-scene-out: df-zoom-out;
+  --df-scene-in: df-zoom-in;
+  --df-scene-duration: 460ms;
+}
+:root[data-df-transition="scene-iris"], [data-scene-preview="scene-iris"] {
+  --df-scene-out: df-scene-hold;
+  --df-scene-in: df-iris-in;
+  --df-scene-duration: 460ms;
+}
+:root[data-df-transition^="scene-"]::view-transition-group(df-scene) {
+  animation-duration: var(--df-scene-duration, 360ms);
+}
+:root[data-df-transition^="scene-"]::view-transition-old(df-scene),
+:root[data-df-transition^="scene-"]::view-transition-new(df-scene) {
+  mix-blend-mode: normal;
+}
+:root[data-df-transition^="scene-"]::view-transition-old(df-scene) {
+  animation: var(--df-scene-out, df-scene-hold) var(--df-scene-duration, 360ms) var(--df-scene-ease, cubic-bezier(.23, 1, .32, 1)) both;
+}
+:root[data-df-transition^="scene-"]::view-transition-new(df-scene) {
+  animation: var(--df-scene-in, df-opacity-in) var(--df-scene-duration, 360ms) var(--df-scene-ease, cubic-bezier(.23, 1, .32, 1)) both;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-scene-preview][data-revealed] > [data-scene-before] {
+    animation: var(--df-scene-out) var(--df-scene-duration) var(--df-scene-ease, cubic-bezier(.23, 1, .32, 1)) both;
+  }
+  [data-scene-preview][data-revealed] > [data-scene-after] {
+    animation: var(--df-scene-in) var(--df-scene-duration) var(--df-scene-ease, cubic-bezier(.23, 1, .32, 1)) both;
+  }
+}
+
+@keyframes df-scene-hold {
+  from, to { opacity: 1; }
+}
+@keyframes df-opacity-in {
+  from { opacity: 0; }
+}
+@keyframes df-push-out {
+  to { transform: translateX(calc(-100% * var(--df-panel-direction, 1))); }
+}
+@keyframes df-push-in {
+  from { transform: translateX(calc(100% * var(--df-panel-direction, 1))); }
+}
+@keyframes df-curtain-in {
+  from { clip-path: inset(0 0 100%); }
+  to { clip-path: inset(0); }
+}
+@keyframes df-zoom-out {
+  to { transform: scale(1.17); opacity: 0; }
+}
+@keyframes df-zoom-in {
+  from { transform: scale(.9); opacity: 0; }
+}
+@keyframes df-iris-in {
+  from { clip-path: circle(0); }
+  to { clip-path: circle(72%); }
+}
+@keyframes df-panel-out {
+  0% { opacity: 1; transform: perspective(1000px) translateX(0) rotateY(0) scale(1); }
+  30% { opacity: 1; }
+  72%, 100% {
+    opacity: 0;
+    transform: perspective(1000px) translateX(calc(-10% * var(--df-panel-direction, 1))) rotateY(calc(24deg * var(--df-panel-direction, 1))) scale(.82);
+  }
+}
+@keyframes df-panel-in {
+  0%, 32% {
+    opacity: 0;
+    transform: perspective(1000px) translateX(calc(10% * var(--df-panel-direction, 1))) rotateY(calc(-24deg * var(--df-panel-direction, 1))) scale(.82);
+  }
+  100% { opacity: 1; transform: perspective(1000px) translateX(0) rotateY(0) scale(1); }
+}
+
+:where([data-motion]) {
+  --df-item-effect: none;
+  --df-item-duration: 0ms;
+  --df-motion-ease: cubic-bezier(.23, 1, .32, 1);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-motion="enter-soft-rise"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) {
+    animation: df-soft-rise 250ms var(--df-motion-ease) both;
+  }
+  [data-motion="enter-masked-title"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) > [data-motion-item] {
+    animation: df-title-reveal 360ms var(--df-motion-ease) both;
+  }
+  [data-motion="reveal-window-stack"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) > [data-motion-item] {
+    animation: df-soft-rise 250ms var(--df-motion-ease) both;
+  }
+  [data-motion="reveal-window-stack"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) > [data-motion-item]:nth-child(2) {
+    animation-delay: 60ms;
+  }
+  [data-motion="reveal-window-stack"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) > [data-motion-item]:nth-child(3) {
+    animation-delay: 120ms;
+  }
+}
+
+[data-motion="enter-masked-title"] {
+  overflow: clip;
+}
+
+@keyframes df-soft-rise {
+  from { opacity: 0; transform: translateY(12px); }
+}
+
+@keyframes df-title-reveal {
+  from { transform: translateY(100%); }
+}
+
+[data-motion="emphasis-marker"] {
+  position: relative;
+  display: inline-block;
+  padding-block-end: .18em;
+}
+
+[data-motion="emphasis-marker"]::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: .13em;
+  background: var(--df-marker-color, currentColor);
+  border-radius: .2em;
+  transform-origin: left;
+}
+
+[data-motion^="exit-"]:is([data-revealed], :has(> [data-step]:not([hidden]))) > [data-motion-item] {
+  visibility: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-motion="emphasis-marker"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter])::after {
+    animation: df-marker-sweep 360ms var(--df-motion-ease) both;
+  }
+  [data-motion="action-travel"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) {
+    animation: df-action-travel 380ms cubic-bezier(.77, 0, .175, 1) both;
+  }
+  [data-motion="exit-soft-drop"]:is([data-revealed], :has(> [data-step][data-revealed]:not([hidden]))) > [data-motion-item] {
+    animation: df-soft-drop 220ms var(--df-motion-ease) both;
+  }
+  [data-motion="ambient-drift"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) {
+    animation: df-ambient-drift 4s ease-in-out both;
+  }
+}
+
+@keyframes df-marker-sweep {
+  from { transform: scaleX(0); }
+}
+
+@keyframes df-action-travel {
+  from { transform: translateX(var(--df-travel-from, -4rem)); }
+}
+
+@keyframes df-soft-drop {
+  from { visibility: visible; opacity: 1; }
+  99% { visibility: visible; }
+  to { visibility: hidden; opacity: 0; transform: translateY(10px); }
+}
+
+@keyframes df-ambient-drift {
+  50% { transform: translate(6px, -8px) rotate(12deg); }
+}
+
+[data-motion="enter-line-wipe"] { overflow: clip; }
+[data-motion="emphasis-ring"] { outline: 2px solid var(--df-ring-color, currentColor); outline-offset: .15em; border-radius: .3em; }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-motion="enter-side-glide"] { --df-item-effect: df-side-glide; --df-item-duration: 280ms; }
+  [data-motion="enter-focus"] { --df-item-effect: df-focus-in; --df-item-duration: 320ms; }
+  [data-motion="enter-line-wipe"] { --df-item-effect: df-line-wipe; --df-item-duration: 340ms; }
+  [data-motion="emphasis-ring"] { --df-item-effect: df-ring; --df-item-duration: 520ms; }
+  [data-motion="emphasis-spotlight"] { --df-item-effect: df-spotlight; --df-item-duration: 550ms; }
+  [data-motion="action-arc"] { --df-item-effect: df-action-arc; --df-item-duration: 520ms; }
+  [data-motion="action-pivot"] { --df-item-effect: df-action-pivot; --df-item-duration: 380ms; }
+  [data-motion="ambient-orbit"] { --df-item-effect: df-ambient-orbit; --df-item-duration: 2400ms; }
+  [data-motion="ambient-pulse"] { --df-item-effect: df-ambient-pulse; --df-item-duration: 1600ms; }
+
+  :where([data-motion]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter])) {
+    animation: var(--df-item-effect) var(--df-item-duration) var(--df-motion-ease) both;
+  }
+
+  [data-motion="reveal-row-cascade"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) > [data-motion-item] {
+    animation: df-side-glide 240ms var(--df-motion-ease) var(--df-cascade-delay, 0ms) both;
+  }
+  [data-motion="reveal-row-cascade"] > [data-motion-item]:nth-child(2) { --df-cascade-delay: 50ms; }
+  [data-motion="reveal-row-cascade"] > [data-motion-item]:nth-child(3) { --df-cascade-delay: 100ms; }
+  [data-motion="reveal-row-cascade"] > [data-motion-item]:nth-child(4) { --df-cascade-delay: 150ms; }
+  [data-motion="reveal-diagram-trace"]:is([data-revealed], :root:not([data-df-transition]) [data-slide][data-enter] [data-motion-on-enter]) [data-motion-item] {
+    stroke-dasharray: 1;
+    animation: df-diagram-trace 550ms var(--df-motion-ease) both;
+  }
+
+  [data-motion="exit-side-glide"] { --df-exit-effect: df-side-exit; }
+  [data-motion="exit-mask-close"] { --df-exit-effect: df-mask-close; }
+  :is([data-motion="exit-side-glide"], [data-motion="exit-mask-close"]):is([data-revealed], :has(> [data-step][data-revealed]:not([hidden]))) > [data-motion-item] {
+    animation: var(--df-exit-effect) 280ms var(--df-motion-ease) both;
+  }
+}
+@keyframes df-side-glide {
+  from { opacity: 0; transform: translateX(var(--df-entry-from, -1.25rem)); }
+}
+@keyframes df-focus-in {
+  from { opacity: 0; transform: scale(.92); }
+}
+@keyframes df-line-wipe {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0); }
+}
+@keyframes df-diagram-trace {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes df-ring {
+  from { outline-color: transparent; outline-offset: .55em; }
+}
+@keyframes df-spotlight {
+  from, to { box-shadow: 0 0 0 0 transparent; }
+  28% { box-shadow: 0 0 0 .32rem var(--df-spotlight-color, #9af0d0); }
+}
+@keyframes df-action-arc {
+  from { transform: translate(-3rem, 0); }
+  57% { transform: translate(-1.3rem, -.8rem); }
+}
+@keyframes df-action-pivot {
+  from { transform: perspective(520px) rotateY(-55deg); opacity: .6; }
+}
+@keyframes df-side-exit {
+  from { visibility: visible; }
+  99% { visibility: visible; }
+  to { visibility: hidden; opacity: 0; transform: translateX(1.25rem); }
+}
+@keyframes df-mask-close {
+  from { visibility: visible; clip-path: inset(0); }
+  99% { visibility: visible; }
+  to { visibility: hidden; clip-path: inset(0 0 0 100%); }
+}
+@keyframes df-ambient-orbit {
+  25% { transform: translate(7px, -4px); }
+  50% { transform: translate(0, -8px); }
+  75% { transform: translate(-7px, -4px); }
+}
+@keyframes df-ambient-pulse {
+  45% { opacity: .65; transform: scale(1.13); }
+}
